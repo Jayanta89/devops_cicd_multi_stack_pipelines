@@ -1,4 +1,4 @@
-                                                ## Jenkins CI CD pipeline for Java/Python/NodeJS application ##
+                              ## Jenkins CI CD pipeline for Java/Python/NodeJS application ##
 
 This is a Jenkins CICD end to end pipeline for various applications. Tools used in this pipeline :-
 
