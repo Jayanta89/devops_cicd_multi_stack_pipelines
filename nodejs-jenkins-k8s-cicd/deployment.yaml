@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-deployment
+  labels:
+    app: nodeapp demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodeapp demo
+  template:
+    metadata:
+      labels:
+        app: nodeapp demo
+    spec:
+      containers:
+      - name: nodeapp demo
+        image: jay/node-app-demo
+        ports:
+        - containerPort: 8000
+       
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-service
+  labels:
+    app: nodeapp demo
+spec:
+  type: NodePort
+  ports:
+  - port: 8000
+    protocol: TCP
+    targetPort: 8000
+    nodePort: 32121
+  selector:
+    app: nodeapp demo
