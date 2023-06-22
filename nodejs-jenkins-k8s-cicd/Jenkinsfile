@@ -1,0 +1,39 @@
+pipeline{
+  environment {
+    registry = "jay/node-app-demo"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
+  agent any
+    stages {
+        stage('install'){
+            steps{
+                script{
+                    sh 'npm install'
+                }
+            }
+        }
+        stage('Building image') {
+            steps{
+                script {
+                  dockerImage = docker.build registry + ":latest"
+                }
+             }
+          }
+          stage('Push Image to dockerhub') {
+              steps{
+                  script 
+                    {
+                        docker.withRegistry( '', registryCredential ) {
+                            dockerImage.push()
+                        }
+                   } 
+               }
+            }
+        stage('Deploying into k8s cluster'){
+            steps{
+                sh 'kubectl apply -f deployment.yml'
+            }
+        }
+    }
+}
